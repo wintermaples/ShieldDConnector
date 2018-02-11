@@ -20,7 +20,7 @@ class Connector():
             shieldd = subprocess.run((self.shieldd_path, 'getnewaddress'), stdout=subprocess.PIPE)
             address = shieldd.stdout.splitlines()[0].decode('utf-8')
             wallet = Wallet.objects.create(address=address, name=id, created_at=timezone.now())
-        return wallet.address
+        return wallet
 
     def get(self, id : str) -> Wallet:
         try:
