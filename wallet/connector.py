@@ -93,15 +93,13 @@ class Connector():
 
     def rain(self, fromId: str, toIds: Sequence[str], amount: float, rainFeePercent: float) -> Sequence[Transaction]:
         transaction.set_autocommit(False)
-        import time
-        s = time.time()
         txs = []
         toWallets = []
         try:
+            amountReal = amount * (1 - rainFeePercent)
             fromWallet = Wallet.objects.get(name=fromId)
 
             for toId in toIds:
-                amountReal = amount * (1 - rainFeePercent)
                 toWallet = Wallet.objects.get(name=toId)
 
                 if fromWallet.balance < amount:
@@ -113,9 +111,6 @@ class Connector():
 
                 txs.append(tx)
                 toWallets.append(toWallet)
-
-                tx.save()
-                toWallet.save()
 
             fromWallet.balance = F('balance') - amount * len(toIds)
             #保存処理
@@ -130,8 +125,6 @@ class Connector():
         finally:
             transaction.commit()
             transaction.set_autocommit(True)
-        e = time.time()
-        print("Elasped Time:%f" % (e - s))
         return txs
 
 
