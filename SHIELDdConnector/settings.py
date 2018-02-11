@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,10 +76,16 @@ WSGI_APPLICATION = 'SHIELDdConnector.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+dbInfoConfFile = open('dbinfo.json')
+dbInfoConf = json.load(dbInfoConfFile)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': dbInfoConf['ENGINE'],
+        'NAME': dbInfoConf['NAME'],
+        'USER': dbInfoConf['USER'],
+        'PASSWORD': dbInfoConf['PASSWORD'],
+        'HOST': dbInfoConf['HOST'],
+        'PORT': dbInfoConf['PORT'],
     }
 }
 

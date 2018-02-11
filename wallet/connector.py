@@ -7,6 +7,7 @@ import json
 import threading
 from django.db.models import F
 import time
+from django.db import transaction
 
 class Connector():
 
@@ -91,28 +92,46 @@ class Connector():
             raise WalletNotFoundException()
 
     def rain(self, fromId: str, toIds: Sequence[str], amount: float, rainFeePercent: float) -> Sequence[Transaction]:
+        transaction.set_autocommit(False)
+        import time
+        s = time.time()
         txs = []
+        toWallets = []
         try:
+            fromWallet = Wallet.objects.get(name=fromId)
+
             for toId in toIds:
                 amountReal = amount * (1 - rainFeePercent)
-                fromWallet = Wallet.objects.get(name=fromId)
                 toWallet = Wallet.objects.get(name=toId)
 
                 if fromWallet.balance < amount:
                     raise InsufficientFundsException()
-                fromWallet.balance = F('balance') - amount
                 toWallet.balance = F('balance') + amountReal
 
                 txType, created = TransactionType.objects.get_or_create(name='Move')
                 tx = Transaction(type=txType, fromAddrOrId=fromId, toAddrOrId=toId, amount=amountReal, fee=0, created_at=timezone.now())
 
                 txs.append(tx)
+                toWallets.append(toWallet)
 
                 tx.save()
-                fromWallet.save()
                 toWallet.save()
+
+            fromWallet.balance = F('balance') - amount * len(toIds)
+            #保存処理
+            for tx in txs:
+                tx.save()
+            for toWallet in toWallets:
+                toWallet.save()
+            fromWallet.save()
         except Wallet.DoesNotExist:
+            transaction.rollback()
             raise WalletNotFoundException()
+        finally:
+            transaction.commit()
+            transaction.set_autocommit(True)
+        e = time.time()
+        print("Elasped Time:%f" % (e - s))
         return txs
 
 
