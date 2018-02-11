@@ -13,7 +13,7 @@ class Connector():
     def __init__(self, shieldd_path):
         self.shieldd_path = shieldd_path
 
-    def create(self, id : str) -> str:
+    def create(self, id : str) -> Wallet:
         try:
             wallet = Wallet.objects.get(name=id)
         except Wallet.DoesNotExist:
@@ -22,19 +22,12 @@ class Connector():
             wallet = Wallet.objects.create(address=address, name=id, created_at=timezone.now())
         return wallet.address
 
-    def address(self, id : str) -> str:
+    def get(self, id : str) -> Wallet:
         try:
             wallet = Wallet.objects.get(name=id)
         except Wallet.DoesNotExist:
             raise WalletNotFoundException()
-        return wallet.address
-
-    def balance(self, id : str) -> float:
-        try:
-            wallet = Wallet.objects.get(name=id)
-        except Wallet.DoesNotExist:
-            raise WalletNotFoundException()
-        return wallet.balance
+        return wallet
 
     def delete(self, id: str) -> bool:
         try:
@@ -52,12 +45,15 @@ class Connector():
             amountReal = amount * (1 - moveFeePercent)
             fromWallet = Wallet.objects.get(name=fromId)
             toWallet = Wallet.objects.get(name=toId)
+
             if fromWallet.balance < amount:
                 raise InsufficientFundsException()
             fromWallet.balance = F('balance') - amount
             toWallet.balance = F('balance') + amountReal
+
             txType, created = TransactionType.objects.get_or_create(name='Move')
             tx = Transaction(type=txType, fromAddrOrId=fromId, toAddrOrId=toId, amount=amountReal, fee=0, created_at=timezone.now())
+
             tx.save()
             fromWallet.save()
             toWallet.save()
@@ -68,6 +64,7 @@ class Connector():
     def send(self, fromId: str, toAddr: str, amount: float, sendFeePercent: float) -> Transaction:
         if amount <= 0.05:
             raise AmountTooSmallException()
+
         try:
             fromWallet = Wallet.objects.get(name=fromId)
             if fromWallet.balance < amount:
@@ -77,35 +74,47 @@ class Connector():
 
             shieldd = subprocess.run((self.shieldd_path, 'sendfrom', "", toAddr, str(amountReal)), stdout=subprocess.PIPE)
             txId = shieldd.stdout.splitlines()[0]
+
             shieldd = subprocess.run((self.shieldd_path, 'gettransaction', txId), stdout=subprocess.PIPE)
             txData = json.loads(shieldd.stdout.decode('utf-8'))
             fee = abs(txData['fee'])
+
             fromWallet.balance = F('balance') - amount - fee
+
             txType, created = TransactionType.objects.get_or_create(name='Send')
             tx = Transaction(type=txType, fromAddrOrId=fromId, toAddrOrId=toAddr, amount=amountReal, fee=fee, created_at=timezone.now())
+
             tx.save()
             fromWallet.save()
             return tx
         except Wallet.DoesNotExist:
             raise WalletNotFoundException()
 
-    def rain(self, fromId: str, toIds: Sequence[str], amount: float, rainFeePercent: float):
+    def rain(self, fromId: str, toIds: Sequence[str], amount: float, rainFeePercent: float) -> Sequence[Transaction]:
+        txs = []
         try:
             for toId in toIds:
                 amountReal = amount * (1 - rainFeePercent)
                 fromWallet = Wallet.objects.get(name=fromId)
                 toWallet = Wallet.objects.get(name=toId)
+
                 if fromWallet.balance < amount:
                     raise InsufficientFundsException()
                 fromWallet.balance = F('balance') - amount
                 toWallet.balance = F('balance') + amountReal
+
                 txType, created = TransactionType.objects.get_or_create(name='Move')
                 tx = Transaction(type=txType, fromAddrOrId=fromId, toAddrOrId=toId, amount=amountReal, fee=0, created_at=timezone.now())
+
+                txs.append(tx)
+
                 tx.save()
                 fromWallet.save()
                 toWallet.save()
         except Wallet.DoesNotExist:
             raise WalletNotFoundException()
+        return txs
+
 
 def receive():
     while True:

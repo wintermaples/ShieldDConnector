@@ -14,8 +14,8 @@ def create(request):
         data = json.loads(jsondata)
         retData = {}
         try:
-            addr = connector.create(data['id'])
-            retData = str(addr)
+            addr = str(connector.create(data['id']).address)
+            retData = addr
             status = Status.SUCCESS
         except Exception as ex:
             status = Status.INTERNAL_ERROR
@@ -31,8 +31,8 @@ def address(request):
         data = json.loads(jsondata)
         retData = {}
         try:
-            addr = connector.address(data['id'])
-            retData = str(addr)
+            addr = str(connector.get(data['id']).address)
+            retData = addr
             status = Status.SUCCESS
         except WalletNotFoundException:
             status = Status.WALLET_NOT_FOUND
@@ -50,7 +50,7 @@ def balance(request):
         data = json.loads(jsondata)
         retData = {}
         try:
-            bal = connector.balance(data['id'])
+            bal = float(connector.get(data['id']).balance)
             retData = bal
             status = Status.SUCCESS
         except WalletNotFoundException:
