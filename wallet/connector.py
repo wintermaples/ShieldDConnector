@@ -131,22 +131,25 @@ class Connector():
 def receive():
     while True:
         time.sleep(60)
-        shieldd = subprocess.run(('/home/wintermaples/SHIELDd', 'listreceivedbyaddress'), stdout=subprocess.PIPE)
-        receives = json.loads(shieldd.stdout.decode('utf-8'))
-        for receiveData in receives:
-            try:
-                w = Wallet.objects.get(address=receiveData['address'])
-                w.balance = F('balance') + receiveData['amount'] - F('totalReceived')
-                added = receiveData['amount'] - float(w.totalReceived)
-                w.totalReceived = receiveData['amount']
-                w.save()
-                if added > 0:
-                    print('Balance of Wallet of %s Added: %f' % (w.name, added))
-                    txType, created = TransactionType.objects.get_or_create(name='Receive')
-                    tx = Transaction(type=txType, fromAddrOrId=w.name, toAddrOrId=w.address, amount=added, fee=0, created_at=timezone.now())
-                    tx.save()
-            except Wallet.DoesNotExist:
-                pass
+        try:
+            shieldd = subprocess.run(('/home/wintermaples/SHIELDd', 'listreceivedbyaddress'), stdout=subprocess.PIPE)
+            receives = json.loads(shieldd.stdout.decode('utf-8'))
+            for receiveData in receives:
+                try:
+                    w = Wallet.objects.get(address=receiveData['address'])
+                    w.balance = F('balance') + receiveData['amount'] - F('totalReceived')
+                    added = receiveData['amount'] - float(w.totalReceived)
+                    w.totalReceived = receiveData['amount']
+                    w.save()
+                    if added > 0:
+                        print('Balance of Wallet of %s Added: %f' % (w.name, added))
+                        txType, created = TransactionType.objects.get_or_create(name='Receive')
+                        tx = Transaction(type=txType, fromAddrOrId=w.name, toAddrOrId=w.address, amount=added, fee=0, created_at=timezone.now())
+                        tx.save()
+                except Wallet.DoesNotExist:
+                    pass
+        except:
+            print('SHIELDd is not run. Trying after 60 seconds...')
 
 
 receiveThread = threading.Thread(target=receive)
