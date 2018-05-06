@@ -8,8 +8,6 @@ from wallet.user_auth import check_permission
 from django.views.decorators.http import require_POST
 from django.db.models import ObjectDoesNotExist
 
-connector: Connector = Connector('/home/wintermaples/SHIELDd')
-
 
 @require_POST
 @csrf_exempt
@@ -21,7 +19,7 @@ def create(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        addr = str(connector.create(system, data['name']).address)
+        addr = str(Connector.get_instance().create(system, data['name']).address)
         retData = addr
         status = Status.SUCCESS
     except Exception as ex:
@@ -40,7 +38,7 @@ def address(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        addr = str(connector.get(system, data['name']).address)
+        addr = str(Connector.get_instance().get(system, data['name']).address)
         retData = addr
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -61,7 +59,7 @@ def balance(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        bal = float(connector.get(system, data['name']).balance)
+        bal = float(Connector.get_instance().get(system, data['name']).balance)
         retData = bal
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -82,7 +80,7 @@ def delete(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        success = connector.delete(system, data['name'])
+        success = Connector.get_instance().delete(system, data['name'])
         retData = success
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -103,8 +101,33 @@ def list(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        wallets = [wallet.to_dict() for wallet in connector.list(system)]
+        wallets = [wallet.to_dict() for wallet in Connector.get_instance().list(system)]
         retData = wallets
+        status = Status.SUCCESS
+    except Exception as ex:
+        status = Status.INTERNAL_ERROR
+        print(ex)
+    return JsonResponse({'result': retData, 'status': status.value.status_code, 'message': status.value.status_message})
+
+
+@require_POST
+@csrf_exempt
+@check_permission(Permission.LIST_TXS)
+def list_txs(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
+    jsondata = request.POST['data'].replace("'", '"')
+    data = json.loads(jsondata)
+    retData = {}
+    try:
+        limit = data.get('limit', 1000)
+        from_addr_or_name = data.get('from_addr_or_name', None)
+        to_addr_or_name = data.get('to_addr_or_name', None)
+        created_at_start = data.get('created_at_start', None)
+        created_at_end = data.get('created_at_end', None)
+        txid = data.get('txid', None)
+        txs = Connector.get_instance().list_txs(system, limit, from_addr_or_name, to_addr_or_name, created_at_start, created_at_end, txid)
+        retData = json.dumps(txs)
         status = Status.SUCCESS
     except Exception as ex:
         status = Status.INTERNAL_ERROR
@@ -122,7 +145,7 @@ def tip(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        tx = connector.move(system, data['from'], data['to'], data['amount'], data['feePercent'])
+        tx = Connector.get_instance().move(system, data['from'], data['to'], Decimal(data['amount']), Decimal(data['feePercent']))
         retData = tx.amount
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -145,7 +168,7 @@ def send(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        tx = connector.send(system, data['from'], data['to'], data['amount'], data['feePercent'])
+        tx = Connector.get_instance().send(system, data['from'], data['to'], Decimal(data['amount']), Decimal(data['feePercent']))
         retData = tx.amount
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -170,7 +193,7 @@ def rain(request):
     data = json.loads(jsondata)
     retData = {}
     try:
-        connector.rain(system, data['from'], data['to'], data['amount'], data['feePercent'])
+        Connector.get_instance().rain(system, data['from'], data['to'], Decimal(data['amount']), Decimal(data['feePercent']))
         status = Status.SUCCESS
     except WalletNotFoundException:
         status = Status.WALLET_NOT_FOUND

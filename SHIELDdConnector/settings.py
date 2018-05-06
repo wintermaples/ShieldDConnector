@@ -27,7 +27,7 @@ SECRET_KEY = '&q4&+zh-i4mse=qdc3^7p9*k$3+9huvy26%m_9lgc^-4tr=tou'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.30']
+ALLOWED_HOSTS = ['192.168.0.150', 'arbor.shieldcurrency.jp']
 
 
 # Application definition
@@ -77,7 +77,15 @@ WSGI_APPLICATION = 'SHIELDdConnector.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-dbInfoConfFile = open('dbinfo.json')
+# テスト環境、本番環境用のパス分岐
+IS_ON_UBUNTU = True
+try:
+    if IS_ON_UBUNTU:
+        dbInfoConfFile = open('/var/www/dbinfo.json')
+    else:
+        dbInfoConfFile = open('dbinfo.json')
+except:
+    dbInfoConfFile = open('dbinfo.json')
 dbInfoConf = json.load(dbInfoConfFile)
 DATABASES = {
     'default': {
@@ -133,3 +141,4 @@ STATIC_URL = '/static/'
 # Set context of decimal
 context = getcontext()
 context.prec = 18
+

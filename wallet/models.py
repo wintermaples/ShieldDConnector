@@ -75,7 +75,7 @@ class Permission(models.Model):
 
     permissions = (ADD_MANAGER, REMOVE_MANAGER, MODIFY_PERMISSION, GET_MANAGERS,
                    BALANCE, MOVE, SEND, RAIN, ADDRESS, CREATE, DELETE, LIST, LIST_TXS)
-    name = models.CharField(max_length=16, choices=permissions)
+    name = models.CharField(max_length=16)
 
     def to_dict(self):
         return {

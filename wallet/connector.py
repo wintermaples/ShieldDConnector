@@ -13,14 +13,24 @@ import os
 
 
 class Connector():
-    def __init__(self, shieldd_path, interval_of_receiving=60):
+    instance = None
+
+    def __init__(self, shieldd_path, interval_of_receiving=60, rpcuser='', rpcpassword=''):
+        print('Connector Instance is created.')
         self.running = True
         self.shieldd_path = shieldd_path
         self.interval_of_receiving = interval_of_receiving
-        self.receive_thread = threading.Thread(target=self.__receive, args=(self,))
-        self.receive_thread.start()
-        self.check_stop_signal_thread = threading.Thread(target=self.__check_stop_signal, args=(self,))
-        self.check_stop_signal_thread.start()
+        self.rpcuser = rpcuser
+        self.rpcpassword = rpcpassword
+        Connector.instance = self
+
+        # makemigrationsする時にスレッドが起動してしまうので環境変数でなんとかする
+        if os.environ.get('SHIELDD_CONNECTOR_STOP') is None or os.environ.get('SHIELDD_CONNECTOR_STOP').lower() == "false":
+            print('Receiving thread will be started...')
+            self.receive_thread = threading.Thread(target=self.__receive)
+            self.receive_thread.start()
+            self.check_stop_signal_thread = threading.Thread(target=self.__check_stop_signal)
+            self.check_stop_signal_thread.start()
 
     @transaction.atomic
     def create(self, system: WalletSystem, name: str) -> Wallet:
@@ -30,8 +40,8 @@ class Connector():
         try:
             wallet = Wallet.objects.get(system=system, name=name)
         except Wallet.DoesNotExist:
-            shieldd = subprocess.run((self.shieldd_path, 'getnewaddress'), stdout=subprocess.PIPE)
-            address = shieldd.stdout.splitlines()[0].decode('utf-8')
+            shieldd = subprocess.run(args=(self.shieldd_path, f'-rpcuser={self.rpcuser}', f'-rpcpassword={self.rpcpassword}', 'getnewaddress'), stdout=subprocess.PIPE)
+            address = shieldd.stdout.decode('utf-8').splitlines()[0]
             wallet = Wallet.objects.create(system=system, address=address, name=name, created_at=timezone.now())
         return wallet
 
@@ -70,9 +80,9 @@ class Connector():
                  created_at_start=None, created_at_end=None, txid=None) -> Sequence[Transaction]:
         # txidだけの場合は一意なのでそれで検索してすぐreturn
         if txid is not None:
-            return list(Transaction.objects.filter(txid=txid))
+            return list(Transaction.objects.filter(system=system, txid=txid))
 
-        query = Transaction.objects
+        query = Transaction.objects.filter(system=system)
 
         if from_addr_or_name is not None:
             query = query.filter(from_addr_or_name=from_addr_or_name)
@@ -132,11 +142,10 @@ class Connector():
 
             amount_real = amount * (1 - send_fee_percent)
 
-            shieldd = subprocess.run((self.shieldd_path, 'sendfrom', "", to_addr, str(amount_real)),
-                                     stdout=subprocess.PIPE)
-            txid = shieldd.stdout.splitlines()[0]
+            shieldd = subprocess.run(args=(self.shieldd_path, f'-rpcuser={self.rpcuser}', f'-rpcpassword={self.rpcpassword}', 'sendfrom', "", to_addr, str(amount_real)), stdout=subprocess.PIPE)
+            txid = shieldd.stdout.decode('utf-8').splitlines()[0]
 
-            shieldd = subprocess.run((self.shieldd_path, 'gettransaction', txid), stdout=subprocess.PIPE)
+            shieldd = subprocess.run(args=(self.shieldd_path, f'-rpcuser={self.rpcuser}', f'-rpcpassword={self.rpcpassword}', 'gettransaction', txid), stdout=subprocess.PIPE)
             txData = json.loads(shieldd.stdout.decode('utf-8'))
             tx_fee = abs(txData['fee'])
 
@@ -180,42 +189,66 @@ class Connector():
 
     def __receive(self):
         try:
-            with transaction.atomic():
-                shieldd = subprocess.run(self.shieldd_path, 'listreceivedbyaddress',
-                                         stdout=subprocess.PIPE)
-                receives = json.loads(shieldd.stdout.decode('utf-8'))
-                for receiveData in receives:
-                    try:
-                        w = Wallet.objects.get(address=receiveData['address'])
-                        w.balance = F('balance') + receiveData['amount'] - F('totalReceived')
-                        added = receiveData['amount'] - float(w.totalReceived)
-                        w.totalReceived = receiveData['amount']
-                        w.save()
-                        if added > 0:
-                            print('Balance of Wallet of %s Added: %f' % (w.name, added))
-                            txType, created = TransactionType.objects.get_or_create(name='Receive')
-                            tx = Transaction(type=txType, fromAddrOrId=w.name, toAddrOrId=w.address, amount=added,
-                                             fee=0,
-                                             created_at=timezone.now())
-                            tx.save()
-                    except Wallet.DoesNotExist:
-                        pass
-        except:
-            print('SHIELDd is not run. Trying after 60 seconds...')
+            shieldd = subprocess.run(args=(self.shieldd_path, f'-rpcuser={self.rpcuser}', f'-rpcpassword={self.rpcpassword}', 'listreceivedbyaddress'), stdout=subprocess.PIPE)
+        except Exception as ex:
+            import traceback
+            shieldd = None
+            print("Couldn't run SHIELDd.")
+            traceback.print_exc()
+
+        if shieldd is not None:
+            print('Check receiving...')
+            try:
+                with transaction.atomic():
+                    receives = json.loads(shieldd.stdout.decode('utf-8'))
+                    for receiveData in receives:
+                        try:
+                            w = Wallet.objects.get(address=receiveData['address'])
+                            w.balance = F('balance') + receiveData['amount'] - F('total_received')
+                            added = receiveData['amount'] - float(w.total_received)
+                            w.total_received = receiveData['amount']
+                            w.save()
+                            if added > 0:
+                                print('Balance of Wallet of %s Added: %f' % (w.name, added))
+                                txType, created = TransactionType.objects.get_or_create(name='Receive')
+                                tx = Transaction(system=w.system, type=txType, from_addr_or_name=w.name, to_addr_or_name=w.address, amount=added,
+                                                 fee=0,
+                                                 created_at=timezone.now())
+                                tx.save()
+                        except Wallet.DoesNotExist:
+                            pass
+            except:
+                import traceback
+                traceback.print_exc()
+                print('SHIELDd is not run. Trying after 60 seconds...')
 
         if self.running:
-            self.receive_thread = threading.Timer(self.interval_of_receiving, self.__receive, args=(self,))
+            self.receive_thread = threading.Timer(self.interval_of_receiving, self.__receive)
             self.receive_thread.start()
 
 
     # 環境変数 SHIELDD_CONNECTOR_STOP = Trueで停止
     def __check_stop_signal(self):
-        if os.environ.get('SHIELDD_CONNECTOR_STOP') is not None and bool(os.environ.get('SHIELDD_CONNECTOR_STOP')) is True:
+        if os.environ.get('SHIELDD_CONNECTOR_STOP') is not None and os.environ.get('SHIELDD_CONNECTOR_STOP').lower() is 'true':
             self.running = False
+            print('===== SHIELDD WILL BE STOPPED =====')
 
         if self.running:
-            self.receive_thread = threading.Timer(1, self.__check_stop_signal, args=(self,))
+            self.receive_thread = threading.Timer(1, self.__check_stop_signal)
             self.receive_thread.start()
+
+
+    def __run_shieldd(self, args):
+        command = [self.shieldd_path]
+        rpc_args = ['-rpcuser=bitcoinrpc', '-rpcpassword=E7xTVKPLdGj8ydb1uHKaEPALjHiTvpAwtkUuT3RmB9Sx']
+        command.extend(rpc_args)
+        return subprocess.run(args=command, stdout=subprocess.PIPE)
+
+    @staticmethod
+    def get_instance():
+        if Connector.instance is None:
+            Connector.instance = Connector('/home/shielddconnector/SHIELDd', rpcuser='bitcoinrpc', rpcpassword='E7xTVKPLdGj8ydb1uHKaEPALjHiTvpAwtkUuT3RmB9Sx')
+        return Connector.instance
 
 
 class StatusData():
