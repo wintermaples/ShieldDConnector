@@ -38,7 +38,7 @@ class WalletSystemFactory:
 
 
 class Manager(models.Model):
-    system = models.ForeignKey(WalletSystem)
+    system = models.ForeignKey(WalletSystem, on_delete=models.PROTECT)
     name = models.CharField(max_length=16)
     token = models.CharField(max_length=32)
     permissions = models.ManyToManyField('Permission')
@@ -85,7 +85,7 @@ class Permission(models.Model):
 
 
 class Wallet(models.Model):
-    system = models.ForeignKey(WalletSystem, db_index=True)
+    system = models.ForeignKey(WalletSystem, db_index=True, on_delete=models.PROTECT)
     address = models.CharField(max_length=35, db_index=True)
     name = models.CharField(max_length=100, unique=True, null=False, db_index=True)
     balance = models.DecimalField(default=0, null=False, max_digits=10 + 8, decimal_places=8)
@@ -110,8 +110,8 @@ class TransactionType(models.Model):
 
 
 class Transaction(models.Model):
-    system = models.ForeignKey(WalletSystem, db_index=True)
-    type = models.ForeignKey(TransactionType, on_delete=models.CASCADE)
+    system = models.ForeignKey(WalletSystem, db_index=True, on_delete=models.PROTECT)
+    type = models.ForeignKey(TransactionType, on_delete=models.PROTECT)
     from_addr_or_name = models.CharField(max_length=100, null=False, db_index=True)
     to_addr_or_name = models.CharField(max_length=100, db_index=True)
     amount = models.DecimalField(max_digits=10 + 8, decimal_places=8, null=False)

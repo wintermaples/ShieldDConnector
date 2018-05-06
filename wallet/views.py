@@ -8,18 +8,20 @@ from wallet.user_auth import check_permission
 from django.views.decorators.http import require_POST
 from django.db.models import ObjectDoesNotExist
 
-connector = Connector('/home/wintermaples/SHIELDd')
+connector: Connector = Connector('/home/wintermaples/SHIELDd')
 
 
 @require_POST
 @csrf_exempt
 @check_permission(Permission.CREATE)
 def create(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        addr = str(connector.create(data['id']).address)
+        addr = str(connector.create(system, data['name']).address)
         retData = addr
         status = Status.SUCCESS
     except Exception as ex:
@@ -32,11 +34,13 @@ def create(request):
 @csrf_exempt
 @check_permission(Permission.ADDRESS)
 def address(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        addr = str(connector.get(data['id']).address)
+        addr = str(connector.get(system, data['name']).address)
         retData = addr
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -51,11 +55,13 @@ def address(request):
 @csrf_exempt
 @check_permission(Permission.BALANCE)
 def balance(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        bal = float(connector.get(data['id']).balance)
+        bal = float(connector.get(system, data['name']).balance)
         retData = bal
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -70,11 +76,13 @@ def balance(request):
 @csrf_exempt
 @check_permission(Permission.DELETE)
 def delete(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        success = connector.delete(data['id'])
+        success = connector.delete(system, data['name'])
         retData = success
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -89,11 +97,13 @@ def delete(request):
 @csrf_exempt
 @check_permission(Permission.LIST)
 def list(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        wallets = [wallet.to_dict() for wallet in connector.list()]
+        wallets = [wallet.to_dict() for wallet in connector.list(system)]
         retData = wallets
         status = Status.SUCCESS
     except Exception as ex:
@@ -106,11 +116,13 @@ def list(request):
 @csrf_exempt
 @check_permission(Permission.MOVE)
 def tip(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        tx = connector.move(data['from'], data['to'], float(data['amount']), float(data['feePercent']))
+        tx = connector.move(system, data['from'], data['to'], data['amount'], data['feePercent'])
         retData = tx.amount
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -127,11 +139,13 @@ def tip(request):
 @csrf_exempt
 @check_permission(Permission.SEND)
 def send(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        tx = connector.send(data['from'], data['to'], float(data['amount']), float(data['feePercent']))
+        tx = connector.send(system, data['from'], data['to'], data['amount'], data['feePercent'])
         retData = tx.amount
         status = Status.SUCCESS
     except WalletNotFoundException:
@@ -150,11 +164,13 @@ def send(request):
 @csrf_exempt
 @check_permission(Permission.RAIN)
 def rain(request):
+    system = WalletSystem.get_wallet_system_from_token(request.POST.get('token'))
+
     jsondata = request.POST['data'].replace("'", '"')
     data = json.loads(jsondata)
     retData = {}
     try:
-        connector.rain(data['from'], data['to'], float(data['amount']), float(data['feePercent']))
+        connector.rain(system, data['from'], data['to'], data['amount'], data['feePercent'])
         status = Status.SUCCESS
     except WalletNotFoundException:
         status = Status.WALLET_NOT_FOUND
