@@ -141,6 +141,7 @@ class Connector():
                 raise InsufficientFundsException()
 
             amount_real = amount * (1 - send_fee_percent)
+            amount_real = amount_real.quantize(Decimal('0.000001'), rounding=ROUND_DOWN)
 
             shieldd = subprocess.run(args=(self.shieldd_path, f'-rpcuser={self.rpcuser}', f'-rpcpassword={self.rpcpassword}', 'sendfrom', "", to_addr, str(amount_real)), stdout=subprocess.PIPE)
             txid = shieldd.stdout.decode('utf-8').splitlines()[0]
@@ -153,7 +154,7 @@ class Connector():
 
             tx_type, created = TransactionType.objects.get_or_create(name='Send')
             tx = Transaction(system=system, type=tx_type, from_addr_or_name=from_name, to_addr_or_name=to_addr, amount=amount_real,
-                             tx_fee=tx_fee, fee=amount - amount_real, txid=txid, created_at=timezone.now())
+                             txfee=tx_fee, fee=amount - amount_real, txid=txid, created_at=timezone.now())
 
             tx.save()
             from_wallet.save()
@@ -247,7 +248,7 @@ class Connector():
     @staticmethod
     def get_instance():
         if Connector.instance is None:
-            Connector.instance = Connector('/home/shielddconnector/SHIELDd', rpcuser='bitcoinrpc', rpcpassword='E7xTVKPLdGj8ydb1uHKaEPALjHiTvpAwtkUuT3RmB9Sx')
+            Connector.instance = Connector('/home/shielddconnector/shield-cli', rpcuser='bitcoinrpc', rpcpassword='E7xTVKPLdGj8ydb1uHKaEPALjHiTvpAwtkUuT3RmB9Sx')
         return Connector.instance
 
 
