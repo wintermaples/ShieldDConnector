@@ -37,6 +37,8 @@ class Connector():
         if self.running is False:
             raise SystemAlreadyStoppedException()
 
+        print(f"Created {name}'s wallet.")
+
         try:
             wallet = Wallet.objects.get(system=system, name=name)
         except Wallet.DoesNotExist:
@@ -60,6 +62,8 @@ class Connector():
     def delete(self, system: WalletSystem, name: str) -> bool:
         if self.running is False:
             raise SystemAlreadyStoppedException()
+
+        print(f"Deleted {name}'s wallet.")
 
         try:
             wallet = Wallet.objects.get(system=system, name=name)
@@ -105,6 +109,8 @@ class Connector():
         if self.running is False:
             raise SystemAlreadyStoppedException()
 
+        print(f'Moved {amount} from {system}.{from_name} to {system}.{to_name}. Fee%: {move_fee_percent}')
+
         try:
             amount_real = amount * (1 - move_fee_percent)
             from_wallet = Wallet.objects.get(system=system, name=from_name)
@@ -134,6 +140,8 @@ class Connector():
 
         if amount <= 0.05:
             raise AmountTooSmallException()
+
+        print(f'Sent {amount} from {system}.{from_name} to {system}.{to_addr}. Fee%: {send_fee_percent}')
 
         try:
             from_wallet = Wallet.objects.get(system=system, name=from_name)
@@ -166,6 +174,8 @@ class Connector():
     def rain(self, system: WalletSystem, from_name: str, to_names: Sequence[str], amount: Decimal, rain_fee_percent: Decimal) -> Transaction:
         if self.running is False:
             raise SystemAlreadyStoppedException()
+
+        print(f'Rained {amount} by {system}.{from_name}. Fee%: {rain_fee_percent}')
 
         try:
             amount_real = amount * (1 - rain_fee_percent)
