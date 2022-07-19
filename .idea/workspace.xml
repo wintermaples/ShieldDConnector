@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="adcb4a28-fa80-4c5c-b898-839e7a3b9216" name="Default" comment="ログ見るようにした" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/SHIELDdConnector$Test.coverage" NAME="Test Coverage Results" MODIFIED="1534643707821" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-509781319">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.0" value="3" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="4" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="261" />
+          <entry key="txt" value="26" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="PLAIN_TEXT" value="26" />
+          <entry key="Python" value="261" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.vcs.git.usages" />
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wallet/connector.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1149">
+              <caret line="194" column="30" selection-start-line="194" selection-start-column="30" selection-end-line="194" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/wallet/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1232">
+              <caret line="193" column="16" selection-start-line="193" selection-start-column="16" selection-end-line="193" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#50#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>POST['data']</find>
+      <find>print(ex)</find>
+      <find>get</find>
+      <find>filter</find>
+      <find>connector.</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>POST['data'].replace(&quot;'&quot;, '&quot;')</replace>
+      <replace>print(traceback.format_exc())</replace>
+      <replace>ConnectorInstance.get().</replace>
+      <replace>Connector.get_instance().</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/SHIELDdConnector/tests/main.py" />
+        <option value="$PROJECT_DIR$/SHIELDdConnector/views.py" />
+        <option value="$PROJECT_DIR$/SHIELDdConnector/urls.py" />
+        <option value="$PROJECT_DIR$/wallet/tests/main.py" />
+        <option value="$USER_HOME$/Anaconda3/Lib/site-packages/bitcoinrpc/authproxy.py" />
+        <option value="$PROJECT_DIR$/wallet/tests.py" />
+        <option value="$PROJECT_DIR$/dbinfo.json" />
+        <option value="$PROJECT_DIR$/wallet/user_auth.py" />
+        <option value="$PROJECT_DIR$/wallet/models.py" />
+        <option value="$PROJECT_DIR$/wallet/urls.py" />
+        <option value="$PROJECT_DIR$/wallet/views.py" />
+        <option value="$PROJECT_DIR$/SHIELDdConnector/settings.py" />
+        <option value="$PROJECT_DIR$/wallet/connector.py" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="153" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SHIELDdConnector" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SHIELDdConnector" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SHIELDdConnector" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SHIELDdConnector" type="462c0819:PsiDirectoryNode" />
+              <item name="SHIELDdConnector" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SHIELDdConnector" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SHIELDdConnector" type="462c0819:PsiDirectoryNode" />
+              <item name="wallet" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Users\wintermaples\Documents\Programming\python\SHIELDdConnector\wallet" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Django tests.Test">
+    <configuration name="Test" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <module name="SHIELDdConnector" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\ProgramData\Anaconda3\envs\SHIELDdConnector\python.exe" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SHIELDdConnector" type="Python.DjangoServer" factoryName="Django server">
+      <module name="SHIELDdConnector" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="SHIELDdConnector.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Django server.SHIELDdConnector" />
+      <item itemvalue="Django tests.Test" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="adcb4a28-fa80-4c5c-b898-839e7a3b9216" name="Default" comment="" />
+      <created>1515314295726</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1515314295726</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Initial Commit.">
+      <created>1518246751378</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1518246751378</updated>
+    </task>
+    <task id="LOCAL-00002" summary="ソースをちょっと修正">
+      <created>1518384034028</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1518384034028</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Wallet返すとこをStr返してたので修正">
+      <created>1518384162300</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1518384162300</updated>
+    </task>
+    <task id="LOCAL-00004" summary="DB情報をファイルから読み込むように変更。&#10;DBをSqlite3からMySQLに。">
+      <created>1518386766695</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1518386766695</updated>
+    </task>
+    <task id="LOCAL-00005" summary="DB情報をファイルから読み込むように変更。&#10;DBをSqlite3からMySQLに。">
+      <created>1518388090734</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1518388090734</updated>
+    </task>
+    <task id="LOCAL-00006" summary="SHIELDdが起動する前に起動すると、入金処理が行われなくなるバグを修正">
+      <created>1519059604736</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1519059604736</updated>
+    </task>
+    <task id="LOCAL-00007" summary="システムを全体的に改修。次の機能を追加した。&#10;・システム毎にウォレットを分けられるようにした。どのシステムからきたのかはtokenで識別する&#10;・管理者を追加できるようにした。権限毎に何ができるかを設定可能。認証はtoken&#10;・管理者の追加にともなうAPIの追加&#10;・トランザクションの検索機能を追加&#10;&#10;改良点:&#10;・システムを安全に停止できるようにした。環境変数にSHIELDD_CONNECTOR_STOP=Trueを設定することで、安全に停止できる状態まで持っていくことができる&#10;・トランザクション処理の修正&#10;・DBのテーブルにインデックスを設定&#10;・txidやtxfeeを記録するようにした">
+      <created>1525560020974</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1525560020974</updated>
+    </task>
+    <task id="LOCAL-00008" summary="ちゃんと使えるようにした">
+      <created>1525575556553</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1525575556553</updated>
+    </task>
+    <task id="LOCAL-00009" summary="もろもろのバグを修正">
+      <created>1525639400390</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1525639400390</updated>
+    </task>
+    <task id="LOCAL-00010" summary="手数料の修正">
+      <created>1536402735855</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1536402735855</updated>
+    </task>
+    <task id="LOCAL-00011" summary="ログ見るようにした">
+      <created>1536528748917</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1536528748917</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Test - 2018.08.19 at 10h 55m 08s.xml">
+      <configuration name="Test" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.12953092" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Event Log" order="0" sideWeight="0.50053364" side_tool="true" visible="true" weight="0.12906724" />
+      <window_info anchor="bottom" id="Version Control" order="1" />
+      <window_info anchor="bottom" id="Python Console" order="2" />
+      <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49733192" weight="0.32461873" />
+      <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49973333" visible="true" weight="0.32897604" />
+      <window_info anchor="bottom" id="Run" order="6" sideWeight="0.4994664" weight="0.32897604" />
+      <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="10" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Data View" order="0" />
+      <window_info anchor="right" id="Database" order="1" />
+      <window_info anchor="right" id="Commander" order="2" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="5" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit." />
+    <MESSAGE value="ソースをちょっと修正" />
+    <MESSAGE value="Wallet返すとこをStr返してたので修正" />
+    <MESSAGE value="DB情報をファイルから読み込むように変更。&#10;DBをSqlite3からMySQLに。" />
+    <MESSAGE value="SHIELDdが起動する前に起動すると、入金処理が行われなくなるバグを修正" />
+    <MESSAGE value="システムを全体的に改修。次の機能を追加した。&#10;・システム毎にウォレットを分けられるようにした。どのシステムからきたのかはtokenで識別する&#10;・管理者を追加できるようにした。権限毎に何ができるかを設定可能。認証はtoken&#10;・管理者の追加にともなうAPIの追加&#10;・トランザクションの検索機能を追加&#10;&#10;改良点:&#10;・システムを安全に停止できるようにした。環境変数にSHIELDD_CONNECTOR_STOP=Trueを設定することで、安全に停止できる状態まで持っていくことができる&#10;・トランザクション処理の修正&#10;・DBのテーブルにインデックスを設定&#10;・txidやtxfeeを記録するようにした" />
+    <MESSAGE value="ちゃんと使えるようにした" />
+    <MESSAGE value="もろもろのバグを修正" />
+    <MESSAGE value="手数料の修正" />
+    <MESSAGE value="ログ見るようにした" />
+    <option name="LAST_COMMIT_MESSAGE" value="ログ見るようにした" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/django/http/response.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/django/http/request.py" />
+    <entry file="file://$PROJECT_DIR$/SHIELDdConnector/views.py" />
+    <entry file="file://$PROJECT_DIR$/wallet/tests/__init__.py" />
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/bitcoinrpc/authproxy.py" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wallet/admin.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/site-packages/django/db/transaction.py" />
+    <entry file="file://$PROJECT_DIR$/wallet.json" />
+    <entry file="file://$PROJECT_DIR$/dbinfo.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SHIELDdConnector/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="8" column="17" lean-forward="true" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/Lib/subprocess.py" />
+    <entry file="file://$PROJECT_DIR$/wallet/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" column="50" selection-start-line="10" selection-start-column="50" selection-end-line="10" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wallet/user_auth.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SHIELDdConnector/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="88" column="27" selection-start-line="88" selection-start-column="27" selection-end-line="88" selection-end-column="27" />
+          <folding>
+            <element signature="e#320#329#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wallet/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="111" column="6" selection-start-line="111" selection-start-column="6" selection-end-line="111" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wallet/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2046">
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wallet/connector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1149">
+          <caret line="194" column="30" selection-start-line="194" selection-start-column="30" selection-end-line="194" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wallet/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1232">
+          <caret line="193" column="16" selection-start-line="193" selection-start-column="16" selection-end-line="193" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

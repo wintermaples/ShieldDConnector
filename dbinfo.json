@@ -1,0 +1,8 @@
+{
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "shielddconnector",
+        "USER": "shielddconnector",
+        "PASSWORD": "",
+        "HOST": "localhost",
+        "PORT": "3306"
+}
